@@ -5,44 +5,39 @@
 #
 
 # Pull the base image
-FROM ubuntu:15.10
-MAINTAINER John Jelinek IV <john@johnjelinek.com>
+FROM ubuntu:16.04
+MAINTAINER Justin Karneges <justin@fanout.io>
 
-ENV PUSHPIN_VERSION 1.6.0
-ENV ZURL_VERSION 1.4.10
-
-# Install dependencies
+# Add private APT repository
 RUN \
   apt-get update && \
-  apt-get install -y pkg-config libqt4-dev libqca2-dev \
-  libqca2-plugin-ossl libqjson-dev libzmq3-dev python-zmq \
-  python-setproctitle python-jinja2 python-tnetstring \
-  python-sortedcontainers mongrel2-core git libcurl4-gnutls-dev
+  apt-get install -y apt-transport-https software-properties-common && \
+  echo deb https://dl.bintray.com/fanout/debian fanout-xenial main \
+    | tee /etc/apt/sources.list.d/fanout.list && \
+  apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys \
+    379CE192D401AB61
 
-# Build Zurl
-RUN \
-  git clone git://github.com/fanout/zurl.git /zurl && \
-  cd /zurl && \
-  git checkout tags/v"$ZURL_VERSION" && \
-  git submodule init && git submodule update && \
-  ./configure && \
-  make && \
-  make install
+ENV PUSHPIN_VERSION 1.10.1-1~xenial1
 
-# Build Pushpin
+# Install Pushpin
 RUN \
-  git clone git://github.com/fanout/pushpin.git /pushpin && \
-  cd /pushpin && \
-  git checkout tags/v"$PUSHPIN_VERSION" && \
-  git submodule init && git submodule update && \
-  make
+  apt-get update && \
+  apt-get install -y pushpin=$PUSHPIN_VERSION
+
+ARG target=app:8080
 
 # Configure Pushpin
 RUN \
-  cd /pushpin && \
-  cp examples/config/* . && \
-  sed -i -e 's/localhost:80/app:8080/' routes && \
-  sed -i -e 's/push_in_http_addr=127.0.0.1/push_in_http_addr=0.0.0.0/' pushpin.conf
+  echo "* ${target},over_http" > /etc/pushpin/routes && \
+  sed -i \
+    -e 's/zurl_out_specs=.*/zurl_out_specs=ipc:\/\/\{rundir\}\/pushpin-zurl-in/' \
+    -e 's/zurl_out_stream_specs=.*/zurl_out_stream_specs=ipc:\/\/\{rundir\}\/pushpin-zurl-in-stream/' \
+    -e 's/zurl_in_specs=.*/zurl_in_specs=ipc:\/\/\{rundir\}\/pushpin-zurl-out/' \
+    /usr/lib/pushpin/internal.conf && \
+  sed -i \
+    -e 's/services=.*/services=mongrel2,m2adapter,zurl,pushpin-proxy,pushpin-handler/' \
+    -e 's/push_in_http_addr=127.0.0.1/push_in_http_addr=0.0.0.0/' \
+    /etc/pushpin/pushpin.conf
 
 # Cleanup
 RUN \
@@ -50,11 +45,8 @@ RUN \
   rm -fr /var/lib/apt/lists/* && \
   rm -fr /tmp/*
 
-# Define working directory
-WORKDIR /pushpin
-
 # Define default command
-CMD ["/pushpin/pushpin"]
+CMD ["/usr/bin/pushpin"]
 
 # Expose ports.
 # - 7999: HTTP port to forward on to the app
