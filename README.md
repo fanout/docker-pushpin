@@ -3,7 +3,7 @@
 
 This repository contains **Dockerfile** of [Pushpin](http://pushpin.org/) for [Docker](https://www.docker.com/) published to the public [Docker Hub Registry](https://hub.docker.com/).
 
-### Pushpin Version: 1.10.1
+### Pushpin Version: 1.11.0
 
 ### Base Docker Image
 
@@ -18,26 +18,34 @@ This repository contains **Dockerfile** of [Pushpin](http://pushpin.org/) for [D
 Alternatively, you can build an image from the `Dockerfile`:
 
 ```sh
-docker build -t fanout/pushpin --build-arg target=dockerhost:80 .
+docker build -t fanout/pushpin .
 ```
 
 ### Usage
 
 ```sh
-docker run -dt -p 7999:7999 --name pushpin fanout/pushpin
+docker run -dt -p 7999:7999 --name pushpin --rm fanout/pushpin
 ```
 
 #### Attach app to accept traffic
+
+By default, Pushpin routes traffic to host "app" port 8080.
 
 1. Start a backend webserver container that exposes port 8080.
 
 2. Start a pushpin container by linking to the backend container:
 
 ```sh
-docker run -dt -p 7999:7999 --link backend:app fanout/pushpin
+docker run -dt -p 7999:7999 --name pushpin --link backend:app fanout/pushpin
 ```
 
 Open `http://<host>:7999` to see the result.
+
+You can override the target with `-e`. For example:
+
+```sh
+docker run -dt -p 7999:7999 --name pushpin --link backend:app -e "target=app:8001" fanout/pushpin
+```
 
 #### Attach app to respond to traffic
 
