@@ -3,7 +3,7 @@
 
 This repository contains **Dockerfile** of [Pushpin](http://pushpin.org/) for [Docker](https://www.docker.com/) published to the public [Docker Hub Registry](https://hub.docker.com/).
 
-### Pushpin Version: 1.17.0
+### Pushpin Version: 1.17.1
 
 ### Base Docker Image
 
