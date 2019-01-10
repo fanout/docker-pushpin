@@ -17,7 +17,7 @@ RUN \
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys \
     379CE192D401AB61
 
-ENV PUSHPIN_VERSION 1.18.0-1~bionic1
+ENV PUSHPIN_VERSION 1.19.1-1~bionic1
 ENV target app:8080
 
 # Install Pushpin
