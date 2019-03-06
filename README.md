@@ -1,13 +1,13 @@
-## Pushpin Dockerfile
+# Pushpin Dockerfile
 
 
 This repository contains **Dockerfile** of [Pushpin](http://pushpin.org/) for [Docker](https://www.docker.com/) published to the public [Docker Hub Registry](https://hub.docker.com/).
 
-### Base Docker Image
+## Base Docker Image
 
 * [ubuntu:18.04](https://hub.docker.com/_/ubuntu/)
 
-### Installation
+## Installation
 
 1. Install [Docker](https://www.docker.com/).
 
@@ -19,36 +19,37 @@ Alternatively, you can build an image from the `Dockerfile`:
 docker build -t fanout/pushpin .
 ```
 
-### Usage
+## Usage
 
 ```sh
-docker run -dt -p 7999:7999 --name pushpin --rm fanout/pushpin
+docker run \
+  -d \
+  -p 7999:7999 \
+  -p 5560-5563:5560-5563 \
+  --rm \
+  --name pushpin \
+  fanout/pushpin
 ```
 
-#### Attach app to accept traffic
-
-By default, Pushpin routes traffic to host "app" port 8080.
-
-1. Start a backend webserver container that exposes port 8080.
-
-2. Start a pushpin container by linking to the backend container:
-
-```sh
-docker run -dt -p 7999:7999 --name pushpin --link backend:app fanout/pushpin
-```
+By default, Pushpin routes traffic to a test handler.  See the [Getting Started Guide](https://pushpin.org/docs/getting-started/) for more information.
 
 Open `http://<host>:7999` to see the result.
 
-You can override the target with `-e`. For example:
+#### Configure Pushpin to route traffic
+
+To add custom Pushpin configuration to your Docker container, attach a configuration volume.
 
 ```sh
-docker run -dt -p 7999:7999 --name pushpin --link backend:app -e "target=app:8001" fanout/pushpin
+docker run \
+  -d \
+  -p 7999:7999 \
+  -p 5560-5563:5560-5563 \
+  -v $(pwd)/config:/etc/pushpin/ \
+  --rm \
+  --name pushpin \
+  fanout/pushpin
 ```
 
-#### Attach app to respond to traffic
+Note: The Docker entrypoint may make modifications to `pushpin.conf` so it runs properly in its container, exposing ports `7999`, `5560`, `5561`, `5562`, and `5563`.
 
-1. Start a responder container by linking to the pushpin container:
-
-```sh
-docker run -d --link pushpin:pushpin ubuntu bash -c "apt-get update; apt-get install -y curl; while true; do curl -s -d '{ \"items\": [ { \"channel\": \"test\", \"formats\": { \"http-stream\": { \"content\": \"hello there\n\" } } } ] }' http://pushpin:5561/publish ; sleep 1; done"
-```
+See project documentation for more on [configuring Pushpin](https://pushpin.org/docs/configuration/).
