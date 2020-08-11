@@ -17,12 +17,12 @@ RUN \
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys \
     379CE192D401AB61
 
-ENV PUSHPIN_VERSION 1.27.0-1~bionic1
+ENV PUSHPIN_VERSION 1.30.0-1~bionic1
 
 # Install Pushpin
 RUN \
   apt-get update && \
-  apt-get install -y pushpin=$PUSHPIN_VERSION
+  apt-get install -y condure pushpin=$PUSHPIN_VERSION
 
 # Cleanup
 RUN \
