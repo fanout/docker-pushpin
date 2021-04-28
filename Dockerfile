@@ -12,10 +12,10 @@ MAINTAINER Justin Karneges <justin@fanout.io>
 RUN \
   apt-get update && \
   apt-get install -y apt-transport-https software-properties-common && \
-  echo deb https://dl.bintray.com/fanout/debian fanout-bionic main \
+  echo deb https://fanout.jfrog.io/artifactory/debian fanout-bionic main \
     | tee /etc/apt/sources.list.d/fanout.list && \
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys \
-    379CE192D401AB61
+    EA01C1E777F95324
 
 ENV PUSHPIN_VERSION 1.31.0-1~bionic1
 
