@@ -17,7 +17,7 @@ RUN \
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys \
     EA01C1E777F95324
 
-ENV PUSHPIN_VERSION 1.33.1-1~bionic1
+ENV PUSHPIN_VERSION 1.34.0-1~bionic1
 
 # Install Pushpin
 RUN \
