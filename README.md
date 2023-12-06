@@ -5,7 +5,7 @@ This repository contains **Dockerfile** of [Pushpin](http://pushpin.org/) for [D
 
 ## Base Docker Image
 
-* [ubuntu:18.04](https://hub.docker.com/_/ubuntu/)
+* [ubuntu:22.04](https://hub.docker.com/_/ubuntu/)
 
 ## Installation
 
