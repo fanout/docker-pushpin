@@ -1,20 +1,9 @@
 #!/bin/bash
 set -e
 
-# Configure Pushpin
-if [ -w /usr/lib/pushpin/internal.conf ]; then
-	sed -i \
-		-e 's/zurl_out_specs=.*/zurl_out_specs=ipc:\/\/\{rundir\}\/pushpin-zurl-in/' \
-		-e 's/zurl_out_stream_specs=.*/zurl_out_stream_specs=ipc:\/\/\{rundir\}\/pushpin-zurl-in-stream/' \
-		-e 's/zurl_in_specs=.*/zurl_in_specs=ipc:\/\/\{rundir\}\/pushpin-zurl-out/' \
-		/usr/lib/pushpin/internal.conf
-else
-	echo "docker-entrypoint.sh: unable to write to /usr/lib/pushpin/internal.conf, readonly"
-fi
-
 if [ -w /etc/pushpin/pushpin.conf ]; then
 	sed -i \
-		-e 's/services=.*/services=condure,zurl,pushpin-proxy,pushpin-handler/' \
+		-e 's/services=.*/services=condure,pushpin-proxy,pushpin-handler/' \
 		-e 's/push_in_spec=.*/push_in_spec=tcp:\/\/\*:5560/' \
 		-e 's/push_in_http_addr=.*/push_in_http_addr=0.0.0.0/' \
 		-e 's/push_in_sub_specs=.*/push_in_sub_spec=tcp:\/\/\*:5562/' \
