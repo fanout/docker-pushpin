@@ -18,7 +18,11 @@ ENV VERSION 1.38.0
 
 ADD https://github.com/fastly/pushpin/releases/download/v${VERSION}/pushpin-${VERSION}.tar.bz2 .
 
-RUN tar xvf pushpin-${VERSION}.tar.bz2 && mv pushpin-${VERSION} pushpin
+RUN tar xf pushpin-${VERSION}.tar.bz2 && mv pushpin-${VERSION} pushpin
+
+ADD https://github.com/fastly/pushpin/commit/95a634a9074fa98431b534974f2d8a662a109baf.patch?full_index=1 .
+
+RUN cd pushpin && patch -p1 <../95a634a9074fa98431b534974f2d8a662a109baf.patch
 
 WORKDIR /build/pushpin
 
