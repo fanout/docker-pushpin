@@ -20,9 +20,9 @@ ADD https://github.com/fastly/pushpin/releases/download/v${VERSION}/pushpin-${VE
 
 RUN tar xf pushpin-${VERSION}.tar.bz2 && mv pushpin-${VERSION} pushpin
 
-ADD https://github.com/fastly/pushpin/commit/95a634a9074fa98431b534974f2d8a662a109baf.patch?full_index=1 .
+ADD https://github.com/fastly/pushpin/commit/b98c2c2dc3d04e00d2c16f8f122c4f0bda0e6503.patch?full_index=1 .
 
-RUN cd pushpin && patch -p1 <../95a634a9074fa98431b534974f2d8a662a109baf.patch
+RUN cd pushpin && patch -p1 <../b98c2c2dc3d04e00d2c16f8f122c4f0bda0e6503.patch
 
 WORKDIR /build/pushpin
 
