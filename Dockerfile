@@ -14,15 +14,11 @@ RUN \
 
 WORKDIR /build
 
-ENV VERSION 1.38.0
+ENV VERSION 1.39.0
 
 ADD https://github.com/fastly/pushpin/releases/download/v${VERSION}/pushpin-${VERSION}.tar.bz2 .
 
 RUN tar xf pushpin-${VERSION}.tar.bz2 && mv pushpin-${VERSION} pushpin
-
-ADD https://github.com/fastly/pushpin/commit/b98c2c2dc3d04e00d2c16f8f122c4f0bda0e6503.patch?full_index=1 .
-
-RUN cd pushpin && patch -p1 <../b98c2c2dc3d04e00d2c16f8f122c4f0bda0e6503.patch
 
 WORKDIR /build/pushpin
 
