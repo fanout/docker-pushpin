@@ -14,7 +14,7 @@ RUN \
 
 WORKDIR /build
 
-ENV VERSION 1.39.0
+ENV VERSION 1.39.1
 
 ADD https://github.com/fastly/pushpin/releases/download/v${VERSION}/pushpin-${VERSION}.tar.bz2 .
 
