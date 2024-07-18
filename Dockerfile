@@ -14,7 +14,7 @@ RUN \
 
 WORKDIR /build
 
-ENV VERSION 1.39.1
+ENV VERSION 1.40.0
 
 ADD https://github.com/fastly/pushpin/releases/download/v${VERSION}/pushpin-${VERSION}.tar.bz2 .
 
@@ -22,7 +22,6 @@ RUN tar xf pushpin-${VERSION}.tar.bz2 && mv pushpin-${VERSION} pushpin
 
 WORKDIR /build/pushpin
 
-RUN cargo fetch
 RUN make RELEASE=1 PREFIX=/usr CONFIGDIR=/etc
 RUN make RELEASE=1 PREFIX=/usr CONFIGDIR=/etc check
 RUN make RELEASE=1 PREFIX=/usr CONFIGDIR=/etc INSTALL_ROOT=/build/out install
