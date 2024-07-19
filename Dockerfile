@@ -10,7 +10,7 @@ FROM ubuntu:22.04 as build
 # Install deps
 RUN \
   apt-get update && \
-  apt-get install -y git pkg-config make g++ rustc cargo libssl-dev qt6-base-dev libzmq3-dev libboost-dev
+  apt-get install -y git pkg-config make g++ rustc cargo libssl-dev qtbase5-dev libzmq3-dev libboost-dev
 
 WORKDIR /build
 
@@ -31,7 +31,7 @@ MAINTAINER Justin Karneges <jkarneges@fastly.com>
 
 RUN \
   apt-get update && \
-  apt-get install -y --no-install-recommends libqt6core6 libqt6network6 libzmq5 && \
+  apt-get install -y --no-install-recommends libqt5core5a libqt5network5 libzmq5 && \
   apt-get -y autoremove && \
   apt-get -y clean && \
   rm -rf /var/lib/apt/lists/*
