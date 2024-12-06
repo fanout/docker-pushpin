@@ -5,7 +5,7 @@
 #
 
 # Pull the base image
-FROM ubuntu:22.04 as build
+FROM ubuntu:24.10 as build
 
 # Install deps
 RUN \
@@ -26,7 +26,7 @@ RUN make RELEASE=1 PREFIX=/usr CONFIGDIR=/etc
 RUN make RELEASE=1 PREFIX=/usr CONFIGDIR=/etc check
 RUN make RELEASE=1 PREFIX=/usr CONFIGDIR=/etc INSTALL_ROOT=/build/out install
 
-FROM ubuntu:22.04
+FROM ubuntu:24.10
 MAINTAINER Justin Karneges <jkarneges@fastly.com>
 
 RUN \
