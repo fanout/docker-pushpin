@@ -10,11 +10,11 @@ FROM ubuntu:24.10 as build
 # Install deps
 RUN \
   apt-get update && \
-  apt-get install -y git pkg-config make g++ rustc cargo libssl-dev qtbase5-dev libzmq3-dev libboost-dev
+  apt-get install -y bzip2 pkg-config make g++ rustc cargo libssl-dev qtbase5-dev libzmq3-dev libboost-dev
 
 WORKDIR /build
 
-ENV VERSION 1.40.1
+ARG VERSION
 
 ADD https://github.com/fastly/pushpin/releases/download/v${VERSION}/pushpin-${VERSION}.tar.bz2 .
 

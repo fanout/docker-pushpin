@@ -2,5 +2,6 @@ services:
   pushpin:
     build:
       context: .
-      dockerfile: Dockerfile
-    image: fanout/pushpin:1.40.1
+      args:
+        VERSION: 1.40.1
+    image: fanout/pushpin:1.40.1-1

@@ -5,7 +5,7 @@ This repository contains **Dockerfile** of [Pushpin](http://pushpin.org/) for [D
 
 ## Base Docker Image
 
-* [ubuntu:22.04](https://hub.docker.com/_/ubuntu/)
+* [ubuntu:24.10](https://hub.docker.com/_/ubuntu/)
 
 ## Installation
 
@@ -13,10 +13,16 @@ This repository contains **Dockerfile** of [Pushpin](http://pushpin.org/) for [D
 
 2. Download [automated build](https://hub.docker.com/r/fanout/pushpin/) from public [Docker Hub Registry](https://hub.docker.com/): `docker pull fanout/pushpin`
 
-Alternatively, you can build an image from the `Dockerfile`:
+Alternatively, you can build an image from the `Dockerfile`. The easiest way to do this is with `docker-compose`, which picks up the source & image versions from `compose.yaml`:
 
 ```sh
-docker build -t fanout/pushpin .
+docker-compose build
+```
+
+Or you can build with `docker` and manually specify the versions:
+
+```sh
+docker build --build-arg VERSION={SOURCE_VERSION} -t fanout/pushpin:{IMAGE_VERSION} .
 ```
 
 ## Usage
