@@ -17,6 +17,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+      - name: Get source version
+        run: echo "SOURCE_VERSION=$(grep VERSION: compose.yaml | awk {'print $2'})" >>$GITHUB_ENV
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
@@ -36,6 +38,8 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
+          build-args:
+            VERSION: ${{ env.SOURCE_VERSION }}
           platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
