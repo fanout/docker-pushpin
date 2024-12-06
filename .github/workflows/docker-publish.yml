@@ -18,7 +18,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Get source version
-        run: echo "SOURCE_VERSION=$(grep VERSION: compose.yaml | awk {'print $2'})" >>$GITHUB_ENV
+        run: echo "SOURCE_VERSION=$(grep VERSION: compose.yaml | awk {'print $2'})" >> "$GITHUB_ENV"
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
