@@ -19,9 +19,8 @@ ARG VERSION
 RUN git clone https://github.com/fastly/pushpin.git
 
 WORKDIR /build/pushpin
-COPY Makefile .
 
-RUN git checkout 3167ddb
+RUN git checkout 090ada4
 RUN cargo fetch
 
 RUN make RELEASE=1 PREFIX=/usr CONFIGDIR=/etc
