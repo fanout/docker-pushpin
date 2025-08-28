@@ -41,6 +41,16 @@ COPY --from=build /build/out/ /
 # Add entrypoint script
 COPY docker-entrypoint.sh /usr/local/bin/
 
+# Create a non-root user, group, directories and switch to that user.
+RUN groupadd -r -g 1001 pushpin && \
+    useradd -r -u 1001 -g pushpin pushpin
+
+RUN mkdir -p /var/run/pushpin && \
+    chown -R pushpin:pushpin /etc/pushpin /var/run/pushpin
+
+# Using the user_id specifically here allows for less configuration in k8s
+USER 1001
+
 ENV LANG C.UTF-8
 
 # Define default entrypoint and command
