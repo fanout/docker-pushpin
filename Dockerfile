@@ -41,6 +41,8 @@ COPY --from=build /build/out/ /
 # Add entrypoint script
 COPY docker-entrypoint.sh /usr/local/bin/
 
+ENV LANG C.UTF-8
+
 # Define default entrypoint and command
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["pushpin", "--merge-output"]
