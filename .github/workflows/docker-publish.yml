@@ -55,7 +55,6 @@ jobs:
           flavor: |
             latest=${{ env.SET_LATEST }}
           tags: |
-            type=ref,event=branch,pattern={{branch}}
             type=semver,pattern={{version}},value=${{ env.BUILD_TAG }}
 
       - name: Derive arch-suffixed tags as output
@@ -108,7 +107,6 @@ jobs:
           flavor: |
             latest=${{ env.SET_LATEST }}
           tags: |
-            type=ref,event=branch,pattern={{branch}}
             type=semver,pattern={{version}},value=${{ env.BUILD_TAG }}
 
       - name: Login
